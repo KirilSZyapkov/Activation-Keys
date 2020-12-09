@@ -1,0 +1,47 @@
+function activationKeys(input) {
+    let rawKey = input.shift();
+    let line;
+    let action = {
+        Contains(rawKey, substring) {
+            let text = rawKey;
+            if (text.includes(substring)) {
+                console.log(`${rawKey} contains ${substring}`);
+            } else {
+                console.log(`Substring not found!`);
+            }
+            return rawKey
+        },
+        Flip(rawKey, command, start, end) {
+            if (command === "Upper") {
+                let one = rawKey.substring(0, start);
+                let two = rawKey.substring(start, end);
+                let three = rawKey.substring(end);
+                let result = one + two.toLocaleUpperCase() + three;
+                rawKey = result;
+            } else if (command === "Lower") {
+                let one = rawKey.substring(0, start);
+                let two = rawKey.substring(start, end);
+                let three = rawKey.substring(end);
+                let result = one + two.toLocaleLowerCase() + three;
+                rawKey = result;
+            }
+            console.log(rawKey);
+            return rawKey
+        },
+        Slice(rawKey, start, end) {
+            let one = rawKey.substring(0, start);
+            let two = rawKey.substring(start, end);
+            let three = rawKey.substring(end);
+            let result = one + three;
+            rawKey = result;
+            console.log(rawKey);
+            return rawKey
+        }
+
+    };
+    while ((line = input.shift()) !== "Generate") {
+        let [command, ...params] = line.split(`>>>`);
+        rawKey = action[command](rawKey, ...params);
+    }
+    console.log(`Your activation key is: ${rawKey}`);
+}
